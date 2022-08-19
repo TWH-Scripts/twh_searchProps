@@ -10,6 +10,9 @@ end)
 
 local alreadySearched = {}
 local alreadySearchedProp = {}
+local message
+local discordIdentity
+local discordId 
 
 RegisterServerEvent("twh_searchProps:interactionLoot")
 AddEventHandler("twh_searchProps:interactionLoot", function(searcher,searched,model)
@@ -17,6 +20,14 @@ AddEventHandler("twh_searchProps:interactionLoot", function(searcher,searched,mo
     local User = VORPcore.getUser(_source) 
     local Character = User.getUsedCharacter
     local entityModel = model
+
+    local Identifier = GetPlayerIdentifier(_source)
+    local steamName = GetPlayerName(_source)
+    if Config.Discord then
+        discordIdentity = GetIdentity(_source, "discord")
+        discordId = string.sub(discordIdentity, 9)
+    end
+    local itemstring = ""
 
     if not alreadySearched[searched] then
         alreadySearched[searched] = searcher
@@ -38,7 +49,8 @@ AddEventHandler("twh_searchProps:interactionLoot", function(searcher,searched,mo
                         default = function()
                             VorpInv.addItem(_source, v.item, v.amount)
                         end
-                    }         
+                    }
+                    itemstring = itemstring.."\n_Item:_`"..tostring(v.item).." x"..tostring(v.amount).."`"         
                 end
                 
             end
@@ -59,7 +71,8 @@ AddEventHandler("twh_searchProps:interactionLoot", function(searcher,searched,mo
                         default = function()
                             VorpInv.addItem(_source, v.item, v.amount)
                         end
-                    }         
+                    }
+                    itemstring = itemstring.."\n_Item:_`"..tostring(v.item).." x"..tostring(v.amount).."`"         
                 end
                 
             end
@@ -67,6 +80,14 @@ AddEventHandler("twh_searchProps:interactionLoot", function(searcher,searched,mo
         Citizen.Wait(1000)
         if found then
             VORPcore.NotifyRightTip(_source,_U("found"),4000)
+            if Config.Discord then
+                message = "**Steam name: **`" .. steamName .. "`**\nIdentifier:**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">".."\n**Items: **"..itemstring
+            else
+                message = "**Steam name: **`" .. steamName .. "`**\nIdentifier:**`" .. Identifier .. "\n**Items: **"..itemstring
+            end
+            if Config.Logs then
+    		    TriggerEvent("twh_searchProps:webhook", "`Get Reward` ", message)
+    		end
         else
             VORPcore.NotifyRightTip(_source,_U("nothingFound"),4000)
         end
@@ -88,6 +109,14 @@ AddEventHandler("twh_searchProps:propLoot", function(prop,coords)
     local _source = source
     local User = VORPcore.getUser(_source)
     local Character = User.getUsedCharacter
+
+    local Identifier = GetPlayerIdentifier(_source)
+    local steamName = GetPlayerName(_source)
+    if Config.Discord then
+        discordIdentity = GetIdentity(_source, "discord")
+        discordId = string.sub(discordIdentity, 9)
+    end
+    local itemstring = ""
 
     local propFound = false
     if alreadySearchedProp[prop] then
@@ -122,7 +151,8 @@ AddEventHandler("twh_searchProps:propLoot", function(prop,coords)
                         default = function()
                             VorpInv.addItem(_source, v.item, v.amount)
                         end
-                    }         
+                    } 
+                    itemstring = itemstring.."\n_Item:_`"..tostring(v.item).." x"..tostring(v.amount).."`"        
                 end
                 
             end
@@ -143,7 +173,8 @@ AddEventHandler("twh_searchProps:propLoot", function(prop,coords)
                         default = function()
                             VorpInv.addItem(_source, v.item, v.amount)
                         end
-                    }         
+                    }
+                    itemstring = itemstring.."\n_Item:_`"..tostring(v.item).." x"..tostring(v.amount).."`"         
                 end
                 
             end
@@ -151,6 +182,14 @@ AddEventHandler("twh_searchProps:propLoot", function(prop,coords)
         Citizen.Wait(1000)
         if found then
             VORPcore.NotifyRightTip(_source,_U("found"),4000)
+            if Config.Discord then
+                message = "**Steam name: **`" .. steamName .. "`**\nIdentifier:**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">".."\n**Items: **"..itemstring
+            else
+                message = "**Steam name: **`" .. steamName .. "`**\nIdentifier:**`" .. Identifier .. "\n**Items: **"..itemstring
+            end
+    		if Config.Logs then
+    		    TriggerEvent("twh_searchProps:webhook", "`Get Reward` ", message)
+    		end
         else
             VORPcore.NotifyRightTip(_source,_U("nothingFound"),4000)
         end
@@ -163,4 +202,10 @@ AddEventHandler("twh_searchProps:propLoot", function(prop,coords)
         end  
     end
 
+end)
+
+
+RegisterServerEvent('twh_searchProps:webhook')
+AddEventHandler('twh_searchProps:webhook', function(title, description, text)
+    Discord(Config.webhook, title, description, text, Config.webhookColor)
 end)

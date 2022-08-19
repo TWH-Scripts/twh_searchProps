@@ -14,14 +14,17 @@ Citizen.CreateThread(function()
             local distance
             local label
             local animation
+            local lootTime
             if Config.propLoot[v] then
                 distance = Config.propLoot[v].distance
                 label = CreateVarString(10, 'LITERAL_STRING',Config.propLoot[v].label)
                 animation = Config.propLoot[v].animation
+                lootTime = Config.propLoot[v].lootTime
             else
                 distance = Config.propLoot["default"].distance
                 label = CreateVarString(10, 'LITERAL_STRING',Config.propLoot["default"].label)
                 animation = Config.propLoot["default"].animation
+                lootTime = Config.propLoot["default"].lootTime
             end
             local prop = DoesObjectOfTypeExistAtCoords(coords.x, coords.y, coords.z, distance, GetHashKey(v), 0)
             if prop then
@@ -29,9 +32,9 @@ Citizen.CreateThread(function()
                 
                 PromptSetActiveGroupThisFrame(prompts, label)
                 if Citizen.InvokeNative(0xC92AC953F0A982AE, openmenu) then
-                    TaskStartScenarioInPlace(PlayerPedId(), GetHashKey(animation), 10000, true, false, false, false)
-                    exports['progressBars']:startUI(10000,_U("searching"))
-                    Citizen.Wait(10000)
+                    TaskStartScenarioInPlace(PlayerPedId(), GetHashKey(animation), lootTime, true, false, false, false)
+                    exports['progressBars']:startUI(lootTime,_U("searching"))
+                    Citizen.Wait(lootTime)
                     TriggerServerEvent("twh_searchProps:propLoot",v,coords)
                 end
                 

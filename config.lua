@@ -2,6 +2,16 @@ Config = {}
 
 Config.defaultlang = "de"
 
+--Webhook
+Config.Logs         = true 
+Config.Discord      = true  --if you use discord whitelist
+Config.webhook      = ""
+Config.webhookColor = 16711680 
+Config.name         = "twh_lottery" 
+Config.logo         = "https://via.placeholder.com/30x30" -- Header
+Config.footerLogo   = "https://via.placeholder.com/30x30" -- Footer
+Config.Avatar       = "https://via.placeholder.com/30x30" -- Avatar
+
 Config.props={"p_dresser05x","p_armoireregal01"}
 
 Config.keys ={
@@ -12,6 +22,7 @@ Config.propLoot ={
     ["default"] = {     --when prop not specified use this loot
         label = "Objekt",
         distance = 1.0,
+        lootTime = 10000,
         animation = 'WORLD_HUMAN_CROUCH_INSPECT',
         loot = {
             {item= "money",amount=1, chance = 1.0},  --you can set money, gold or any item you want. Chance is set in percentage: 0.1 = 10%
@@ -21,6 +32,7 @@ Config.propLoot ={
     ["p_dresser05x"] = {    --specified props has to be in Config.props aswell
         label = "Schrank",
         distance = 1.0,
+        lootTime = 10000,
         animation = 'WORLD_HUMAN_CROUCH_INSPECT',
         loot = {
             {item= "gold",amount=1, chance = 1.0},
