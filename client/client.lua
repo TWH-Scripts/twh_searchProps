@@ -70,13 +70,6 @@ Citizen.CreateThread(function()
 	    				eventDataStruct:SetInt32(24 ,0)
                         local is_data_exists = Citizen.InvokeNative(0x57EC5FA4D4D6AFCA,0,i,eventDataStruct:Buffer(),eventDataSize)    -- GET_EVENT_DATA
                         if is_data_exists then
-                            print("interacted")
-                            print("0: searcher ped id: "..eventDataStruct:GetInt32(0))
-	    				    print("1: searched entity: "..eventDataStruct:GetInt32(8))
-	    				    print("2: ?: "..eventDataStruct:GetInt32(16))
-	    				    print("3: isCoontainerclosedAfter: "..eventDataStruct:GetInt32(24))
-                            print("-----")
-                            print(GetEntityModel(eventDataStruct:GetInt32(8)))
                             local searcher = eventDataStruct:GetInt32(0)
                             local searched = eventDataStruct:GetInt32(8)
                             local isClosedAfter = eventDataStruct:GetInt32(24)
