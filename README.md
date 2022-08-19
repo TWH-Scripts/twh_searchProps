@@ -19,6 +19,8 @@
 - Enable loot when interact with drawers,chests or other interactable objects in the world
 - Add as many objects as you want with custom chances and loot or default
 
+- All lootable objects reload at server restart
+
 
 
 
