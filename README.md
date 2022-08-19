@@ -15,10 +15,10 @@
 ## Features
 - Setup individual props which can be searched 
 - Set custom animation,chances and loot for each prop or default
+- All lootable props reload at server restart
 ----
 - Enable loot when interact with drawers,chests or other interactable objects in the world
 - Add as many objects as you want with custom chances and loot or default
-
 - All lootable objects reload at server restart
 
 
