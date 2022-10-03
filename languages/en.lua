@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------------
 ---------------------------------- ENGLISH -------------------------------------------
 
-Locales["de"] = {
+Locales["en"] = {
 
   prompt = "Press",
   alreadySearched = "It seems someone has already searched this",
